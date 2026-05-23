@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parti Apartmanház — Vendégszobák</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --sand: #F5F0E8;
+      --stone: #E8E0D2;
+      --warm-gray: #9A9080;
+      --dark: #1C1A17;
+      --accent: #8B6E4E;
+      --light-accent: #C4A882;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sand);
+      color: var(--dark);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+
+
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(245, 240, 232, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stone);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--dark);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 4rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--warm-gray);
+      max-width: 360px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      border: 1px solid var(--dark);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+      transition: all 0.25s;
+      align-self: flex-start;
+    }
+
+    .btn:hover {
+      background: var(--dark);
+      color: var(--sand);
+    }
+
+    /* ── SLIDESHOW (általános) ── */
+    .slideshow {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background: var(--stone);
+    }
+
+    .slideshow-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slideshow-track img {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: var(--stone);
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(245, 240, 232, 0.75);
+      border: none;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 2;
+      padding: 0;
+    }
+
+    .slide-btn:hover {
+      background: rgba(245, 240, 232, 0.97);
+    }
+
+    .slide-btn.prev {
+      left: 0.75rem;
+    }
+
+    .slide-btn.next {
+      right: 0.75rem;
+    }
+
+    .slide-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--dark);
+    }
+
+    .slide-dots {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(245, 240, 232, 0.5);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .slide-dot.active {
+      background: var(--sand);
+      transform: scale(1.3);
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 400px;
+    }
+
+    .hero-image .slideshow {
+      min-height: 400px;
+    }
+
+    .hero-stat {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 2rem;
+      background: var(--sand);
+      padding: 1rem 1.5rem;
+      border-left: 3px solid var(--accent);
+      z-index: 3;
+    }
+
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: var(--warm-gray);
+      letter-spacing: 0.1em;
+      margin-top: 0.2rem;
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: 6rem 4rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: var(--light-accent);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+    }
+
+    .section-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--stone);
+      margin-left: 1rem;
+    }
+
+    /* ── SZOBÁK ── */
+    #szobak {
+      background: #FDFAF5;
+    }
+
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .room-card {
+      background: var(--sand);
+      border: 1px solid var(--stone);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .room-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(28, 26, 23, 0.08);
+    }
+
+    .room-img {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .room-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--sand);
+      padding: 0.3rem 0.75rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--light-accent);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .room-body {
+      padding: 1.5rem;
+    }
+
+    .room-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      margin-bottom: 0.4rem;
+      font-variant-numeric: lining-nums tabular-nums
+    }
+
+    .room-desc {
+      font-size: 0.85rem;
+      color: var(--warm-gray);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .room-features {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--stone);
+      padding-top: 1rem;
+    }
+
+    .feature-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .feature-tag::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--light-accent);
+      flex-shrink: 0;
+    }
+
+    /* ── ELÉRHETŐSÉG ── */
+    #elerhetoseg {
+      background: var(--dark);
+      color: var(--sand);
+    }
+
+    #elerhetoseg .section-title {
+      color: var(--sand);
+    }
+
+    #elerhetoseg .section-num {
+      color: var(--light-accent);
+    }
+
+    #elerhetoseg .section-divider {
+      background: #3A3630;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--light-accent);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .contact-note {
+      font-size: 0.85rem;
+      color: #7A7268;
+      line-height: 1.8;
+    }
+
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid #2E2B27;
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border: 1px solid #3A3630;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light-accent);
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #7A7268;
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-value {
+      font-size: 1rem;
+      color: var(--sand);
+    }
+
+    .contact-value a {
+      color: var(--light-accent);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #141210;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #5A544C;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: #3A3630;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 1.2rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-image {
+        height: 60vw;
+        min-height: 220px;
+      }
+
+      .hero-text {
+        padding: 5rem 1.5rem 3rem;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Parti Apartmanház</a>
+    <ul class="nav-links">
+      <li><a href="#szobak">Szobák</a></li>
+      <li><a href="#elerhetoseg">Elérhetőség</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text fade-in">
+      <p class="hero-eyebrow">Vendégszobák &amp; szállás</p>
+      <h1 class="hero-title">Pihenj meg<br><em>nálunk</em></h1>
+      <p class="hero-sub">Csendes, otthonos környezetben várjuk vendégeinket. Minden szobánkat úgy alakítottuk ki, hogy
+        valódi kikapcsolódást nyújtson.</p>
+      <a href="#szobak" class="btn">Szobák megtekintése</a>
+    </div>
+    <div class="hero-image">
+      <div class="slideshow" data-auto="4000">
+        <div class="slideshow-track">
+          <img src="pictures/37945463.jpg" alt="">
+          <img src="pictures/40306904.jpg" alt="">
+          <img src="pictures/konyha/IMG_20260411_091114.jpg" alt="">
+          <img src="pictures/konyha/IMG_20260411_091130.jpg   " alt="">
+          <img src="pictures/38654883.jpg" alt="">
+          <img src="pictures/40593815.jpg" alt="">
+        </div>
+        <button class="slide-btn prev" aria-label="Előző">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button class="slide-btn next" aria-label="Következő">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+        <div class="slide-dots"></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">vendégszoba</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SZOBÁK -->
+  <section id="szobak">
+    <div class="section-header fade-in">
+      <h2 class="section-title">Szobáink</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="rooms-grid">
+
+      <div class="room-card fade-in">
+        <div class="room-img">
+          <div class="slideshow" data-auto="5000">
+            <div class="slideshow-track">
+              <img src="pictures/1/1.jpg" alt="Szoba 1">
+              <img src="pictures/1/2.jpg" alt="Szoba 1">
+              <img src="pictures/1/3.jpg" alt="Szoba 1">
+              <img src="pictures/1/4.jpg" alt="Szoba 1">
+              <img src="pictures/1/5.jpg" alt="Szoba 1">
+              <img src="pictures/1/6.jpg" alt="Szoba 1">
+              <img src="pictures/1/7.jpg" alt="Szoba 1">
+            </div>
+            <button class="slide-btn prev" aria-label="Előző">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button class="slide-btn next" aria-label="Következő">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <div class="slide-dots"></div>
+          </div>
+        </div>
+        <div class="room-body">
+          <h3 class="room-name">1-es szoba</h3>
+          <p class="room-desc">   </p>
+          <div class="room-features">
+            <span class="feature-tag">Franciaágy</span>
+            <span class="feature-tag">WiFi</span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="room-card fade-in">
+        <div class="room-img">
+          <div class="slideshow" data-auto="5500">
+            <div class="slideshow-track">
+              <img src="pictures/2/1.jpg" alt="Szoba 2">
+              <img src="pictures/2/2.jpg" alt="Szoba 2">
+              <img src="pictures/2/3.jpg" alt="Szoba 2">
+              <img src="pictures/2/4.jpg" alt="Szoba 2">
+              <img src="pictures/2/5.jpg" alt="Szoba 2">
+            </div>
+            <button class="slide-btn prev" aria-label="Előző">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button class="slide-btn next" aria-label="Következő">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <div class="slide-dots"></div>
+          </div>
+        </div>
+        <div class="room-body">
+          <h3 class="room-name">2-es szoba</h3>
+          <p class="room-desc">   </p>
+          <div class="room-features">
+            <span class="feature-tag">Ikerágyak</span>
+            <span class="feature-tag">Tetőtér</span>
+            <span class="feature-tag">WiFi</span>
+            <span class="feature-tag">TV</span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="room-card fade-in">
+        <div class="room-img">
+          <div class="slideshow" data-auto="6000">
+            <div class="slideshow-track">
+              <img src="     " alt="3-as szoba">
+              <img src="     " alt="3-as szoba">
+            </div>
+            <button class="slide-btn prev" aria-label="Előző">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button class="slide-btn next" aria-label="Következő">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <div class="slide-dots"></div>
+          </div>
+        </div>
+        <div class="room-body">
+          <h3 class="room-name">3-as szoba</h3>
+          <p class="room-desc">TODO</p>
+          <div class="room-features">
+            <span class="feature-tag">Franciaágy</span>
+            <span class="feature-tag">Saját fürdő</span>
+            <span class="feature-tag">WiFi</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="room-card fade-in">
+        <div class="room-img">
+          <div class="slideshow" data-auto="6000">
+            <div class="slideshow-track">
+              <img src="pictures/4/1.jpg" alt="4-es szoba">
+              <img src="pictures/4/2.jpg" alt="4-es szoba">
+              <img src="pictures/4/3.jpg" alt="4-es szoba">
+              <img src="pictures/4/4.jpg" alt="4-es szoba">
+              <img src="pictures/4/5.jpg" alt="4-es szoba">
+              <img src="pictures/4/6.jpg" alt="4-es szoba">
+              <img src="pictures/4/7.jpg" alt="4-es szoba">
+              <img src="pictures/4/8.jpg" alt="4-es szoba">
+              <img src="pictures/4/9.jpg" alt="4-es szoba">
+            </div>
+            <button class="slide-btn prev" aria-label="Előző">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button class="slide-btn next" aria-label="Következő">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <div class="slide-dots"></div>
+          </div>
+        </div>
+        <div class="room-body">
+          <h3 class="room-name">4-es szoba</h3>
+          <p class="room-desc">   </p>
+          <div class="room-features">
+            <span class="feature-tag">Franciaágy</span>
+            <span class="feature-tag">Saját fürdő</span>
+            <span class="feature-tag">WiFi</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="room-card fade-in">
+        <div class="room-img">
+          <div class="slideshow" data-auto="6000">
+            <div class="slideshow-track">
+              <img src="pictures/9/1.jpg" alt="4-es szoba">
+              <img src="pictures/9/2.jpg" alt="4-es szoba">
+              <img src="pictures/9/3.jpg" alt="4-es szoba">
+              <img src="pictures/9/4.jpg" alt="4-es szoba">
+              <img src="pictures/9/5.jpg" alt="4-es szoba">
+
+            </div>
+            <button class="slide-btn prev" aria-label="Előző">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button class="slide-btn next" aria-label="Következő">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <div class="slide-dots"></div>
+          </div>
+        </div>
+        <div class="room-body">
+          <h3 class="room-name">9-es szoba</h3>
+          <p class="room-desc">    </p>
+          <div class="room-features">
+            <span class="feature-tag">Franciaágy</span>
+            <span class="feature-tag">Saját fürdő</span>
+            <span class="feature-tag">WiFi</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ELÉRHETŐSÉG -->
+  <section id="elerhetoseg">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Elérhetőség</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="fade-in">
+        <p class="contact-intro">"Szívesen várjuk érdeklődésüket és foglalásaikat."</p>
+        <p class="contact-note">Kérdés esetén hívjon minket telefonon vagy írjon e-mailt</p>
+      </div>
+
+      <div class="contact-items fade-in">
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.5 1.23 2 2 0 012.48 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.5a16 16 0 006.59 6.59l1.56-1.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Telefon</div>
+            <div class="contact-value"><a href="tel:+36301234567">+36 30 533 9227</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">E-mail</div>
+            <div class="contact-value"><a href="mailto:info@villaharmonia.hu">albitzgabor@freemail.hu</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Cím</div>
+            <div class="contact-value"> Balatonvilágos, Hunyadi u. 19, 8170</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">asd</span>
+    <span class="footer-copy">&copy; 2026 — Minden jog fenntartva</span>
+  </footer>
+  <div id="lb-overlay"
+    style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.9);align-items:center;justify-content:center;">
+    <button id="lb-close" aria-label="Bezárás"
+      style="position:fixed;top:16px;right:20px;background:none;border:1px solid rgba(255,255,255,0.3);color:#fff;width:38px;height:38px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
+    <button id="lb-prev" aria-label="Előző"
+      style="position:fixed;left:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:26px;cursor:pointer;">‹</button>
+    <img id="lb-img" src="" alt=""
+      style="max-width:92vw;max-height:88vh;object-fit:contain;border-radius:4px;display:block;">
+    <button id="lb-next" aria-label="Következő"
+      style="position:fixed;right:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:26px;cursor:pointer;">›</button>
+    <div id="lb-counter"
+      style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.55);font-size:13px;font-family:'DM Sans',sans-serif;">
+    </div>
+  </div>
+  <script>
+    // Fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Slideshow inicializálás
+    document.querySelectorAll('.slideshow').forEach(ss => {
+      const track = ss.querySelector('.slideshow-track');
+      const slides = Array.from(track.children);
+      const dotsEl = ss.querySelector('.slide-dots');
+      const autoDelay = parseInt(ss.dataset.auto) || 0;
+      let current = 0;
+      let timer = null;
+
+      if (slides.length <= 1) {
+        ss.querySelector('.prev').style.display = 'none';
+        ss.querySelector('.next').style.display = 'none';
+        return;
+      }
+
+      const lbOverlay = document.getElementById('lb-overlay');
+      const lbImg = document.getElementById('lb-img');
+      const lbCounter = document.getElementById('lb-counter');
+      let lbImages = [], lbCur = 0;
+
+      function openLightbox(imgs, idx) {
+        lbImages = imgs; lbCur = idx;
+        lbOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        updateLightbox();
+      }
+      function closeLightbox() {
+        lbOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      function updateLightbox() {
+        lbImg.src = lbImages[lbCur];
+        lbCounter.textContent = (lbCur + 1) + ' / ' + lbImages.length;
+      }
+      function lbNav(dir) {
+        lbCur = (lbCur + dir + lbImages.length) % lbImages.length;
+        updateLightbox();
+      }
+
+      document.getElementById('lb-close').addEventListener('click', closeLightbox);
+      document.getElementById('lb-prev').addEventListener('click', () => lbNav(-1));
+      document.getElementById('lb-next').addEventListener('click', () => lbNav(1));
+      lbOverlay.addEventListener('click', e => { if (e.target === lbOverlay) closeLightbox(); });
+      document.addEventListener('keydown', e => {
+        if (lbOverlay.style.display !== 'flex') return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lbNav(-1);
+        if (e.key === 'ArrowRight') lbNav(1);
+      });
+
+      // Kép kattintás: minden slideshow-képre
+      document.querySelectorAll('.slideshow').forEach(ss => {
+        const imgs = Array.from(ss.querySelectorAll('img')).map(i => i.src);
+        ss.querySelectorAll('img').forEach((img, idx) => {
+          img.style.cursor = 'zoom-in';
+          img.addEventListener('click', () => openLightbox(imgs, idx));
+        });
+      });
+
+
+      // Dotsok generálása
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', (i + 1) + '. kép');
+        dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+        dotsEl.appendChild(dot);
+      });
+
+      function goTo(n) {
+        current = (n + slides.length) % slides.length;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        dotsEl.querySelectorAll('.slide-dot').forEach((d, i) =>
+          d.classList.toggle('active', i === current));
+      }
+
+      function resetTimer() {
+        if (!autoDelay) return;
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), autoDelay);
+      }
+
+      ss.querySelector('.prev').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+      ss.querySelector('.next').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+
+      // Auto-play
+      if (autoDelay) {
+        timer = setInterval(() => goTo(current + 1), autoDelay);
+      }
+
+      // Touch/swipe támogatás
+      let startX = 0;
+      track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { goTo(current + (diff > 0 ? 1 : -1)); resetTimer(); }
+      }, { passive: true });
+    });
+  </script>
+</body>
+
+</html>
