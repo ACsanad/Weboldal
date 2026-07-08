@@ -123,7 +123,12 @@ const SITE_CONFIG = {
       badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
       autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
       images: [
-        
+        "pictures/7/1.jpg",
+        "pictures/7/2.jpg",
+        "pictures/7/3.jpg",
+        "pictures/7/4.jpg",
+        "pictures/7/5.jpg",
+        "pictures/7/6.jpg"
       ],
     },
     {
@@ -134,7 +139,12 @@ const SITE_CONFIG = {
       badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
       autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
       images: [
-        
+        "pictures/8/1.jpg",
+        "pictures/8/2.jpg",
+        "pictures/8/3.jpg",
+        "pictures/8/4.jpg",
+        "pictures/8/5.jpg",
+        "pictures/8/6.jpg"
       ],
     },
     {
