@@ -8,8 +8,8 @@ const SITE_CONFIG = {
   hero: [
     "pictures/37945463.jpg",
     "pictures/40306904.jpg",
-    "pictures/konyha/IMG_20260411_091114.jpg",
-    "pictures/konyha/IMG_20260411_091130.jpg",
+    "pictures/IMG_20260411_091114.jpg",
+    "pictures/IMG_20260411_091130.jpg",
     "pictures/38654883.jpg",
     "pictures/40593815.jpg",
     "pictures/IMG_20260528_104516.jpg",
