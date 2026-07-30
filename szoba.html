@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Szoba | Parti Apartmanház Balatonvilágos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Parti Apartmanház</a>
+    <ul class="nav-links">
+      <li><a href="index.html#szobak">Szobák</a></li>
+      <li><a href="index.html#elerhetoseg">Elérhetőség</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menü">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="index.html#szobak">Szobák</a>
+      <a href="index.html#elerhetoseg">Elérhetőség</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <a href="index.html" class="back-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Vissza a főoldalra
+    </a>
+    <nav class="breadcrumb" aria-label="Morzsamenü">
+      <a href="index.html">Főoldal</a>
+      <span class="sep">/</span>
+      <a href="index.html#szobak">Szobák</a>
+      <span class="sep">/</span>
+      <span class="current" id="breadcrumb-room">…</span>
+    </nav>
+  </div>
+
+  <!-- SZOBA RÉSZLETEK -->
+  <section class="room-hero" id="room-hero">
+    <div class="room-hero-gallery">
+      <div class="slideshow" id="room-slideshow">
+        <div class="slideshow-track"></div>
+        <button class="slide-btn prev" aria-label="Előző">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="slide-btn next" aria-label="Következő">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="slide-dots"></div>
+      </div>
+    </div>
+    <div class="room-hero-info">
+      <span class="room-hero-badge" id="room-badge" style="display:none;"></span>
+      <h1 class="room-hero-name" id="room-name">…</h1>
+      <p class="room-hero-desc" id="room-desc" style="display:none;"></p>
+      <div class="room-hero-features" id="room-features"></div>
+      <div class="price-calc" id="price-calc">
+        <p class="calc-title">Ár kalkulátor</p>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label for="calc-checkin">Érkezés</label>
+            <input type="date" id="calc-checkin">
+          </div>
+          <div class="calc-field">
+            <label for="calc-checkout">Távozás</label>
+            <input type="date" id="calc-checkout">
+          </div>
+        </div>
+        <div class="calc-row calc-row-guests">
+          <div class="calc-field">
+            <label for="calc-guests">Fő</label>
+            <input type="number" id="calc-guests" min="1" value="2">
+          </div>
+        </div>
+        <div class="calc-result" id="calc-result"></div>
+        <a href="#" class="btn calc-cta" id="calc-inquiry">Ajánlatkérés e-mailben</a>
+        <div class="calc-phone-block">
+          <span class="calc-phone-label">Vagy hívj minket közvetlenül</span>
+          <a href="tel:+36305339227" class="calc-phone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.5 1.23 2 2 0 012.48 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.5a16 16 0 006.59 6.59l1.56-1.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            +36 30 533 9227
+          </a>
+        </div>
+        <p class="calc-note">A megjelenő ár tájékoztató jellegű; a végleges foglalást e-mailben vagy telefonon erősítjük vissza.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAPOZÁS A SZOBÁK KÖZÖTT -->
+  <nav class="room-pagination" id="room-pagination" aria-label="Szoba lapozó"></nav>
+
+  <!-- ELÉRHETŐSÉG -->
+  <section id="elerhetoseg">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Elérhetőség</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="fade-in">
+        <p class="contact-intro">Szívesen várjuk érdeklődésüket és foglalásaikat.</p>
+        <p class="contact-note">Kérdés esetén hívjon minket telefonon vagy írjon e-mailt</p>
+      </div>
+      <div class="contact-items fade-in">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.5 1.23 2 2 0 012.48 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.5a16 16 0 006.59 6.59l1.56-1.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Telefon</div>
+            <div class="contact-value"><a href="tel:+36305339227">+36 30 533 9227</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">E-mail</div>
+            <div class="contact-value"><a href="mailto:albitzgabor@freemail.hu">albitzgabor@freemail.hu</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Cím</div>
+            <div class="contact-value">Balatonvilágos, Hunyadi u. 19, 8170</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">Parti Apartmanház</span>
+    <span class="footer-copy">&copy; 2026 — Minden jog fenntartva</span>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="lb-overlay">
+    <button id="lb-close" aria-label="Bezárás">×</button>
+    <button id="lb-prev" aria-label="Előző">‹</button>
+    <img id="lb-img" src="" alt="">
+    <button id="lb-next" aria-label="Következő">›</button>
+    <div id="lb-counter"></div>
+  </div>
+
+  <script src="images.js"></script>
+  <script src="prices.js"></script>
+  <script src="site.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'), 10);
+    const rooms = SITE_CONFIG.rooms;
+    const idx = rooms.findIndex(r => r.id === id);
+
+    if (idx === -1) {
+      // Ismeretlen / hiányzó azonosító — vissza a szobalistához
+      window.location.replace('index.html#szobak');
+      return;
+    }
+
+    const room = rooms[idx];
+
+    document.title = `${room.name} | Parti Apartmanház Balatonvilágos`;
+    document.getElementById('breadcrumb-room').textContent = room.name;
+    document.getElementById('room-name').textContent = room.name;
+
+    if (room.badge) {
+      const badgeEl = document.getElementById('room-badge');
+      badgeEl.textContent = room.badge;
+      badgeEl.style.display = '';
+    }
+
+    if (room.desc) {
+      const descEl = document.getElementById('room-desc');
+      descEl.textContent = room.desc;
+      descEl.style.display = '';
+    }
+
+    document.getElementById('room-features').innerHTML =
+      room.features.map(f => `<span class="feature-tag">${f}</span>`).join('');
+
+    // ── Galéria ──────────────────────────────────────────────
+    const gallery = document.getElementById('room-slideshow');
+    Site.initSlideshow(gallery, room.images, room.autoDelay || 0);
+
+    // ── Árkalkulátor ───────────────────────────────────────────
+    Site.initPriceCalculator(
+      document.getElementById('price-calc'),
+      room,
+      'albitzgabor@freemail.hu'
+    );
+
+    // ── Előző / következő szoba lapozó ────────────────────────
+    const pag = document.getElementById('room-pagination');
+    const prevRoom = rooms[(idx - 1 + rooms.length) % rooms.length];
+    const nextRoom = rooms[(idx + 1) % rooms.length];
+
+    pag.innerHTML = `
+      <a href="szoba.html?id=${prevRoom.id}" class="prev">
+        <span class="room-pagination-label">← Előző szoba</span>
+        <span class="room-pagination-name">${prevRoom.name}</span>
+      </a>
+      <a href="szoba.html?id=${nextRoom.id}" class="next">
+        <span class="room-pagination-label">Következő szoba →</span>
+        <span class="room-pagination-name">${nextRoom.name}</span>
+      </a>
+    `;
+
+    // ── Fade-in ────────────────────────────────────────────────
+    Site.initFadeIn();
+
+  })();
+  </script>
+
+</body>
+</html>
