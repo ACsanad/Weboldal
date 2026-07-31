@@ -34,13 +34,6 @@
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Vissza a főoldalra
     </a>
-    <nav class="breadcrumb" aria-label="Morzsamenü">
-      <a href="index.html">Főoldal</a>
-      <span class="sep">/</span>
-      <a href="index.html#szobak">Szobák</a>
-      <span class="sep">/</span>
-      <span class="current" id="breadcrumb-room">…</span>
-    </nav>
   </div>
 
   <!-- SZOBA RÉSZLETEK -->
@@ -76,8 +69,12 @@
         </div>
         <div class="calc-row calc-row-guests">
           <div class="calc-field">
-            <label for="calc-guests">Fő</label>
-            <input type="number" id="calc-guests" min="1" value="2">
+            <label for="calc-adults">Felnőttek</label>
+            <input type="number" id="calc-adults" min="1" value="1">
+          </div>
+          <div class="calc-field">
+            <label for="calc-children">Gyermekek (12 év alatt)</label>
+            <input type="number" id="calc-children" min="0" value="0">
           </div>
         </div>
         <div class="calc-result" id="calc-result"></div>
@@ -96,8 +93,6 @@
     </div>
   </section>
 
-  <!-- LAPOZÁS A SZOBÁK KÖZÖTT -->
-  <nav class="room-pagination" id="room-pagination" aria-label="Szoba lapozó"></nav>
 
   <!-- ELÉRHETŐSÉG -->
   <section id="elerhetoseg">
@@ -186,7 +181,10 @@
     const room = rooms[idx];
 
     document.title = `${room.name} | Parti Apartmanház Balatonvilágos`;
-    document.getElementById('breadcrumb-room').textContent = room.name;
+    const breadcrumbEl = document.getElementById('breadcrumb-room');
+    if (breadcrumbEl) {
+      breadcrumbEl.textContent = room.name;
+    }
     document.getElementById('room-name').textContent = room.name;
 
     if (room.badge) {

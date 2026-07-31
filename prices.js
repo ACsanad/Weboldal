@@ -1,40 +1,17 @@
-// ============================================================
-//  ÁRKONFIGURÁCIÓ — itt add meg a szobák valódi árait
-//  FONTOS: az alábbi számok PÉLDA (placeholder) értékek!
-//  Cseréld ki mindegyiket a tényleges árakra, mielőtt élesítenéd.
-// ============================================================
-
 const PRICING_CONFIG = {
-
-  // A pénznem, ami a kalkulátorban megjelenik
-  currency: "Ft",
-
-  // Legalább ennyi éjszakára lehet foglalni (pl. 2 = min. 2 éjszaka)
+  currency: 'Ft',
   minNights: 1,
-
-  // Szobánkénti árazás — a kulcs az images.js-ben használt room.id
+  seasons: [ /* ha van szezonális szorzó, az marad */ ],
   rooms: {
-    1: { pricePerNight: 25000, includedGuests: 2, maxGuests: 2, extraGuestFee: 0 },
-    2: { pricePerNight: 32000, includedGuests: 2, maxGuests: 4, extraGuestFee: 4000 },
-    3: { pricePerNight: 28000, includedGuests: 2, maxGuests: 3, extraGuestFee: 4000 },
-    4: { pricePerNight: 34000, includedGuests: 2, maxGuests: 5, extraGuestFee: 4000 },
-    5: { pricePerNight: 24000, includedGuests: 2, maxGuests: 2, extraGuestFee: 0 },
-    6: { pricePerNight: 26000, includedGuests: 2, maxGuests: 3, extraGuestFee: 4000 },
-    7: { pricePerNight: 26000, includedGuests: 2, maxGuests: 3, extraGuestFee: 4000 },
-    8: { pricePerNight: 26000, includedGuests: 2, maxGuests: 3, extraGuestFee: 4000 },
-    9: { pricePerNight: 30000, includedGuests: 2, maxGuests: 4, extraGuestFee: 4000 },
-    // pricePerNight    — alapár / éjszaka, ennyi fővel: includedGuests
-    // includedGuests   — hány fő fér bele az alapárba
-    // maxGuests        — a szoba maximális befogadóképessége
-    // extraGuestFee    — plusz díj minden fő felett / éjszaka
-  },
+    1: { maxGuests: 2, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 },
+    2: { maxGuests: 3, pricePerAdultNight: 13000, pricePerChildNight: 10000, cleaningFee: 12000 },
+    3: { maxGuests: 2, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 },
+    4: { maxGuests: 3, pricePerAdultNight: 11000, pricePerChildNight: 8000, cleaningFee: 12000 },
+    5: { maxGuests: 3, pricePerAdultNight: 13000, pricePerChildNight: 10000, cleaningFee: 12000 },
+    6: { maxGuests: 2, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 },
+    7: { maxGuests: 3, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 },
+    8: { maxGuests: 2, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 },
+    9: { maxGuests: 1, pricePerAdultNight: 12000, pricePerChildNight: 9000, cleaningFee: 12000 }
 
-  // Opcionális: szezonális felár dátumtartományokra.
-  // "multiplier": 1.2 = 20% felár az adott időszakban.
-  // Ha nem kell szezonalitás, hagyd üresen: []
-  seasons: [
-    // { start: "2026-07-01", end: "2026-08-31", label: "Főszezon", multiplier: 1.25 },
-    // { start: "2026-12-20", end: "2027-01-02", label: "Ünnepek",  multiplier: 1.2  },
-  ],
-
+  }
 };

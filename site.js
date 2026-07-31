@@ -171,19 +171,25 @@ const Site = (() => {
     const todayStr = today.toISOString().slice(0, 10);
     const tomorrow = new Date(today.getTime() + 86400000).toISOString().slice(0, 10);
 
-    const inEl      = container.querySelector('#calc-checkin');
-    const outEl     = container.querySelector('#calc-checkout');
-    const guestsEl  = container.querySelector('#calc-guests');
-    const resultEl  = container.querySelector('#calc-result');
-    const inquiryEl = container.querySelector('#calc-inquiry');
+    const inEl       = container.querySelector('#calc-checkin');
+    const outEl      = container.querySelector('#calc-checkout');
+    const adultsEl   = container.querySelector('#calc-adults');
+    const childrenEl = container.querySelector('#calc-children');
+    const resultEl   = container.querySelector('#calc-result');
+    const inquiryEl  = container.querySelector('#calc-inquiry');
 
     inEl.min = todayStr;
     inEl.value = todayStr;
     outEl.min = tomorrow;
     outEl.value = tomorrow;
-    guestsEl.min = 1;
-    guestsEl.max = cfg.maxGuests;
-    guestsEl.value = Math.min(cfg.includedGuests, cfg.maxGuests);
+
+    adultsEl.min = 1;
+    adultsEl.max = cfg.maxGuests;
+    adultsEl.value = 1;
+
+    childrenEl.min = 0;
+    childrenEl.max = cfg.maxGuests - 1;
+    childrenEl.value = 0;
 
     function seasonMultiplierFor(dateStr) {
       const seasons = (typeof PRICING_CONFIG !== 'undefined') && PRICING_CONFIG.seasons || [];
@@ -199,11 +205,19 @@ const Site = (() => {
       const outDate = new Date(outEl.value);
       const nights = Math.round((outDate - inDate) / 86400000);
 
-      let guests = parseInt(guestsEl.value, 10) || 1;
+      let adults   = parseInt(adultsEl.value, 10) || 0;
+      let children = parseInt(childrenEl.value, 10) || 0;
       let guestWarning = '';
-      if (guests > cfg.maxGuests) {
-        guests = cfg.maxGuests;
-        guestsEl.value = guests;
+
+      if (adults < 1) {
+        adults = 1;
+        adultsEl.value = adults;
+      }
+
+      if (adults + children > cfg.maxGuests) {
+        // Fewer children if over the limit, keep adults as entered
+        children = Math.max(0, cfg.maxGuests - adults);
+        childrenEl.value = children;
         guestWarning = `<p class="calc-warning">Ez a szoba legfeljebb ${cfg.maxGuests} főt fogad.</p>`;
       }
 
@@ -215,46 +229,57 @@ const Site = (() => {
         return;
       }
 
-      const extraGuests = Math.max(0, guests - cfg.includedGuests);
       const season = seasonMultiplierFor(inEl.value);
-      const perNight = cfg.pricePerNight * season.m;
-      const roomTotal = perNight * nights;
-      const extraTotal = extraGuests * cfg.extraGuestFee * nights;
-      const total = roomTotal + extraTotal;
+      const adultRate = cfg.pricePerAdultNight * season.m;
+      const childRate = cfg.pricePerChildNight * season.m;
 
-      let rows = `<div class="calc-line"><span>${nights} éjszaka × ${fmt(perNight)}</span><span>${fmt(roomTotal)}</span></div>`;
-      if (extraGuests > 0) {
-        rows += `<div class="calc-line"><span>+${extraGuests} fő × ${fmt(cfg.extraGuestFee)} × ${nights} éj</span><span>${fmt(extraTotal)}</span></div>`;
+      const adultsTotal = adultRate * adults * nights;
+      const childrenTotal = childRate * children * nights;
+      const cleaningFee = cfg.cleaningFee || 0;
+      const total = adultsTotal + childrenTotal + cleaningFee;
+
+      let rows = `<div class="calc-line"><span>${adults} felnőtt × ${fmt(adultRate)} × ${nights} éj</span><span>${fmt(adultsTotal)}</span></div>`;
+      if (children > 0) {
+        rows += `<div class="calc-line"><span>${children} gyermek × ${fmt(childRate)} × ${nights} éj</span><span>${fmt(childrenTotal)}</span></div>`;
       }
       if (season.label) {
         rows += `<div class="calc-line calc-line-note"><span>${season.label} időszak — árban érvényesítve</span></div>`;
       }
+      rows += `<div class="calc-line"><span>Takarítási díj (egyszeri)</span><span>${fmt(cleaningFee)}</span></div>`;
       rows += `<div class="calc-line calc-total"><span>Összesen</span><span>${fmt(total)}</span></div>`;
 
       resultEl.innerHTML = guestWarning + rows;
 
       const subject = `Ajánlatkérés – ${room.name}`;
       const body =
-        `Szia!\n\nÉrdeklődnék az alábbi foglalás felől:\n\n` +
+        `Szép napot!\n\nÉrdeklődnék az alábbi foglalás felől:\n\n` +
         `Szoba: ${room.name}\n` +
         `Érkezés: ${inEl.value}\n` +
         `Távozás: ${outEl.value}\n` +
         `Éjszakák száma: ${nights}\n` +
-        `Vendégek száma: ${guests} fő\n` +
-        `Becsült ár a kalkulátor alapján: ${fmt(total)}\n\n` +
+        `Felnőttek száma: ${adults} fő\n` +
+        `Gyermekek száma: ${children} fő\n` +
+        `Becsült ár a kalkulátor alapján (takarítással együtt): ${fmt(total)}\n\n` +
         `Kérlek, erősítsétek meg a foglalást / az árat.\n\nKöszönöm!`;
       inquiryEl.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       inquiryEl.removeAttribute('aria-disabled');
     }
 
-    [inEl, outEl, guestsEl].forEach(el => el.addEventListener('change', () => {
-      if (new Date(outEl.value) <= new Date(inEl.value)) {
-        const next = new Date(inEl.value); next.setDate(next.getDate() + 1);
-        outEl.value = next.toISOString().slice(0, 10);
-      }
-      outEl.min = (() => { const d = new Date(inEl.value); d.setDate(d.getDate() + 1); return d.toISOString().slice(0, 10); })();
-      calc();
-    }));
+    // 'input' esemény: azonnal frissít gépelés/csúszka mozgatás közben is
+    // 'change' esemény: dátumválasztóknál (néhány böngészőben ez a megbízhatóbb)
+    [inEl, outEl, adultsEl, childrenEl].forEach(el => {
+      el.addEventListener('input', () => {
+        if (el === inEl || el === outEl) {
+          if (new Date(outEl.value) <= new Date(inEl.value)) {
+            const next = new Date(inEl.value); next.setDate(next.getDate() + 1);
+            outEl.value = next.toISOString().slice(0, 10);
+          }
+          outEl.min = (() => { const d = new Date(inEl.value); d.setDate(d.getDate() + 1); return d.toISOString().slice(0, 10); })();
+        }
+        calc();
+      });
+      el.addEventListener('change', calc);
+    });
 
     calc();
   }
