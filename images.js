@@ -23,7 +23,7 @@ const SITE_CONFIG = {
       id: 1,
       name: "1-es szoba",
       desc: "",          // opcionális leírás
-      features: ["Franciaágy", "WiFi"],
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
       badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
       autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
       images: [
@@ -40,7 +40,7 @@ const SITE_CONFIG = {
       id: 2,
       name: "2-es szoba",
       desc: "",
-      features: ["Ikerágyak", "Tetőtér", "WiFi", "TV"],
+      features: ["Parkoló az udvaron","Minikonyha", "Saját fürdő", "WiFi", "TV"],
       badge: null,
       autoDelay: 5500,
       images: [
@@ -55,7 +55,7 @@ const SITE_CONFIG = {
       id: 3,
       name: "3-as szoba",
       desc: "",
-      features: ["Franciaágy", "Saját fürdő", "WiFi"],
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
       badge: null,
       autoDelay: 6000,
       images: [
@@ -70,7 +70,7 @@ const SITE_CONFIG = {
       id: 4,
       name: "4-es szoba",
       desc: "",
-      features: ["Franciaágy", "Saját fürdő", "WiFi"],
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
       badge: null,
       autoDelay: 6500,
       images: [
@@ -88,10 +88,10 @@ const SITE_CONFIG = {
     {
       id: 5,
       name: "5-ös szoba",
-      desc: "",          // opcionális leírás
-      features: ["Franciaágy", "WiFi"],
-      badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
-      autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
+      desc: "",
+      features: ["Parkoló az udvaron", "Saját fürdő", "Minikonyha","Erkély", "WiFi"],
+      badge: null,
+      autoDelay: 5000,
       images: [
         "pictures/5/1.jpg",
         "pictures/5/2.jpg",
@@ -102,10 +102,10 @@ const SITE_CONFIG = {
     {
       id: 6,
       name: "6-os szoba",
-      desc: "",          // opcionális leírás
-      features: ["Franciaágy", "WiFi"],
-      badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
-      autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
+      desc: "",
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
+      badge: null,
+      autoDelay: 5000,
       images: [
         "pictures/6/1.jpg",
         "pictures/6/2.jpg",
@@ -118,10 +118,10 @@ const SITE_CONFIG = {
     {
       id: 7,
       name: "7-es szoba",
-      desc: "",          // opcionális leírás
-      features: ["Franciaágy", "WiFi"],
-      badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
-      autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
+      desc: "",
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
+      badge: null,
+      autoDelay: 5000,
       images: [
         "pictures/7/1.jpg",
         "pictures/7/2.jpg",
@@ -134,10 +134,10 @@ const SITE_CONFIG = {
     {
       id: 8,
       name: "8-as szoba",
-      desc: "",          // opcionális leírás
+      desc: "",
       features: ["Franciaágy", "WiFi"],
-      badge: null,       // pl. "Legnépszerűbb" — null = nincs jelvény
-      autoDelay: 5000,   // ms, 0 = nincs automatikus lapozás
+      badge: null,
+      autoDelay: 5000,
       images: [
         "pictures/8/1.jpg",
         "pictures/8/2.jpg",
@@ -151,7 +151,7 @@ const SITE_CONFIG = {
       id: 9,
       name: "9-es szoba",
       desc: "",
-      features: ["Franciaágy", "Saját fürdő", "WiFi"],
+      features: ["Parkoló az udvaron", "Saját fürdő", "WiFi"],
       badge: null,
       autoDelay: 7000,
       images: [
